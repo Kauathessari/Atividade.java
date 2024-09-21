@@ -1,0 +1,62 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class JogoDeAdivinhacao {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        boolean jogarNovamente;
+
+        do {
+            int numeroSorteado = random.nextInt(100) + 1; // Sorteia um número entre 1 e 100
+            int tentativasMaximas = 7; // Define o número máximo de tentativas
+            int tentativas = 0;
+            boolean acertou = false;
+
+            System.out.println("Bem-vindo ao Jogo de Adivinhação!");
+            System.out.println("Eu escolhi um número entre 1 e 100. Você tem " + tentativasMaximas + " tentativas. Tente adivinhar!");
+
+            while (tentativas < tentativasMaximas && !acertou) {
+                System.out.print("Digite seu palpite: ");
+                
+                // Tratamento de entrada
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Por favor, insira um número válido entre 1 e 100.");
+                    scanner.next(); // Descarta a entrada inválida
+                }
+
+                int palpite = scanner.nextInt();
+
+                // Verifica se o palpite está dentro do intervalo
+                if (palpite < 1 || palpite > 100) {
+                    System.out.println("O palpite deve estar entre 1 e 100.");
+                    continue; // Pula para a próxima iteração do loop
+                }
+
+                tentativas++;
+
+                if (palpite < numeroSorteado) {
+                    System.out.println("O número sorteado é maior que " + palpite + ".");
+                } else if (palpite > numeroSorteado) {
+                    System.out.println("O número sorteado é menor que " + palpite + ".");
+                } else {
+                    acertou = true; // O jogador adivinhou o número
+                    System.out.println("Parabéns! Você adivinhou o número em " + tentativas + " tentativas.");
+                }
+            }
+
+            if (!acertou) {
+                System.out.println("Você não conseguiu adivinhar. O número era " + numeroSorteado + ".");
+            }
+
+            // Pergunta se o jogador quer jogar novamente
+            System.out.print("Deseja jogar novamente? (s/n): ");
+            String resposta = scanner.next();
+            jogarNovamente = resposta.equalsIgnoreCase("s");
+
+        } while (jogarNovamente);
+
+        System.out.println("Obrigado por jogar!");
+        scanner.close(); // Fecha o scanner
+    }
+}
